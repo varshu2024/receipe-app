@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Generator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Recipe Generator</h1>
+            <p>Create delicious recipes based on your preferences</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="form-container">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="cuisine">Cuisine Type</label>
+                    <select id="cuisine" name="cuisine">
+                        <option value="any">Any Cuisine</option>
+                        {% for cuisine in cuisines %}
+                        <option value="{{ cuisine }}">{{ cuisine|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="diet">Dietary Preference</label>
+                    <select id="diet" name="diet">
+                        <option value="any">Any Diet</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="non-vegetarian">Non-Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cooking_time">Max Cooking Time (minutes, optional)</label>
+                    <input type="number" id="cooking_time" name="cooking_time" min="10" max="240" placeholder="e.g. 30">
+                </div>
+                
+                <button type="submit">Generate Recipe</button>
+            </form>
+        </div>
+        
+        {% if recipe %}
+        <div class="recipe-card" style="display: block;">
+            <div class="recipe-header">
+                <h2 class="recipe-title">{{ recipe.title }}</h2>
+                <div class="recipe-meta">
+                    <span class="meta-item">Cuisine: {{ recipe.cuisine }}</span>
+                    <span class="meta-item">Diet: {{ recipe.diet }}</span>
+                    <span class="meta-item">Time: {{ recipe.cooking_time }}</span>
+                    <span class="meta-item">Servings: {{ recipe.servings }}</span>
+                </div>
+            </div>
+            
+            <div class="ingredients-list">
+                <h3 class="section-title">Ingredients</h3>
+                <ul>
+                    <li><strong>Main:</strong> {{ recipe.ingredients.main }}</li>
+                    <li><strong>Spices:</strong> {{ recipe.ingredients.spices|join(', ') }}</li>
+                    <li><strong>Other:</strong> {{ recipe.ingredients.other|join(', ') }}</li>
+                </ul>
+            </div>
+            
+            <div class="instructions-list">
+                <h3 class="section-title">Instructions</h3>
+                <ol>
+                    {% for step in recipe.instructions %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+            
+            <p class="generated-date"><small>Generated on: {{ recipe.date_generated }}</small></p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>Recipe Generator &copy; {{ now.year }} | Generate delicious recipes with ease</p>
+        </div>
+    </footer>
+    <!-- Remove the now.year reference or replace it with date_generated -->
+<footer class="footer">
+    <div class="container">
+        <p>Recipe Generator &copy; {{ recipe.date_generated[:4] if recipe else '2025' }} | Generate delicious recipes with ease</p>
+    </div>
+</footer>
+</body>
+</html>
