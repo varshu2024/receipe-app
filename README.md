@@ -67,7 +67,7 @@ text
 
 http://localhost:5000
 
-📂 Project Structure
+## 📂 Project Structure
 
 text
 
@@ -88,7 +88,7 @@ recipe-generator/
 # Main template
 └── README.md
 
-🌟 Highlights & Challenges
+## 🌟 Highlights & Challenges
 
 Key Implementations
 
